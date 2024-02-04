@@ -18,6 +18,6 @@ public class GameService {
     public GameModel createGame(GameDTO gameDTO){
         boolean gameExistByName= gameRepository.existsByName(gameDTO.getName());
 
-
+        //if(gameExistByName) throw 
     }
 }
