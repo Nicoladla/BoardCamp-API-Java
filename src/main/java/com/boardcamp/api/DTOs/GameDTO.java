@@ -1,27 +1,23 @@
 package com.boardcamp.api.DTOs;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
 public class GameDTO {
 
-    @NotBlank(message = "name cannot be null.")
-    @Min(value = 2, message = "name cannot have less than two characters.")
+    @NotBlank(message = "name cannot be null or empty.")
+    @Size(min = 2, message = "name cannot have less than two characters.")
     private String name;
 
-    @NotBlank(message = "image cannot be null.")
-    @Pattern(regexp = "((http|https)://)(www.)?[a-zA-Z0-9@:%._\\\\+~#?&//=]{2,256}\\\\.[a-z]{2,6}\\\\b([-a-zA-Z0-9@:%._\\\\+~#?&//=]*)")
+    @NotBlank(message = "image cannot be null or empty.")
     private String image;
 
-    @NotBlank(message = "stockTotal cannot be null.")
-    @Positive
+    @Positive(message = "stockTotal must be greater than 0")
     private int stockTotal;
 
-    @NotBlank(message = "pricePerDay cannot be null.")
-    @Positive
+    @Positive(message = "pricePerDay must be greater than 0")
     private int pricePerDay;
 }
