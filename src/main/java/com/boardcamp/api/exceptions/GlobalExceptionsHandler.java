@@ -12,4 +12,9 @@ public class GlobalExceptionsHandler {
     public ResponseEntity<String> handleConflict(ConflictException exception) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
+
+    @ExceptionHandler({ NotFoundException.class })
+    public ResponseEntity<String> handleNotFound(NotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+    }
 }
