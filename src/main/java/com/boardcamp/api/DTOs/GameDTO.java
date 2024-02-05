@@ -1,5 +1,7 @@
 package com.boardcamp.api.DTOs;
 
+import org.hibernate.validator.constraints.URL;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -12,6 +14,7 @@ public class GameDTO {
     @Size(min = 2, message = "name cannot have less than two characters.")
     private String name;
 
+    @URL(message = "Image must be a valid URL.")
     @NotBlank(message = "image cannot be null or empty.")
     private String image;
 
