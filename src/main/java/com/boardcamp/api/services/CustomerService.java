@@ -1,5 +1,7 @@
 package com.boardcamp.api.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.boardcamp.api.DTOs.CustomerDTO;
@@ -14,6 +16,11 @@ public class CustomerService {
 
     public CustomerService(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
+    }
+
+    public List<CustomerModel> findCustomers() {
+        List<CustomerModel> customers = customerRepository.findAll();
+        return customers;
     }
 
     public CustomerModel findCustomerById(Long id) {
