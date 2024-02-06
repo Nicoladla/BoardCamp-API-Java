@@ -1,21 +1,15 @@
 package com.boardcamp.api.DTOs;
 
-import java.time.LocalDate;
+import jakarta.validation.constraints.Positive;
 
 public class RentalDTO {
 
-    
-    private LocalDate rentDate;
-
-
-    private LocalDate returnDate;
-    
-    
+    @Positive
     private int daysRented;
 
+    @Positive
+    private int gameId;
 
-    private int originalPrice;
-
-
-    private int delayFee;
+    @Positive
+    private int customerId;
 }
