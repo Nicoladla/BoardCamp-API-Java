@@ -2,7 +2,7 @@ package com.boardcamp.api.DTOs;
 
 import java.time.LocalDate;
 
-public class RentalModel {
+public class RentalDTO {
 
     
     private LocalDate rentDate;
