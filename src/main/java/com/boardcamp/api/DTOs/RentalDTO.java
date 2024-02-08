@@ -6,12 +6,12 @@ import lombok.Data;
 @Data
 public class RentalDTO {
 
-    @Positive
+    @Positive(message = "daysRented must be greater than 0")
     private int daysRented;
 
-    @Positive
+    @Positive(message = "gameId must be greater than 0")
     private Long gameId;
 
-    @Positive
+    @Positive(message = "customerId must be greater than 0")
     private Long customerId;
 }
