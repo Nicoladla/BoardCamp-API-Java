@@ -1,11 +1,13 @@
 package com.boardcamp.api.services;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
 import com.boardcamp.api.DTOs.RentalDTO;
 import com.boardcamp.api.exceptions.NotFoundException;
+import com.boardcamp.api.exceptions.UnprocessableEntityException;
 import com.boardcamp.api.models.CustomerModel;
 import com.boardcamp.api.models.GameModel;
 import com.boardcamp.api.models.RentalModel;
@@ -39,7 +41,20 @@ public class RentalService {
         CustomerModel customer = customerRepository.findById(rentalDTO.getCustomerId())
                 .orElseThrow(() -> new NotFoundException("Customer not found."));
 
-        
+        Long rentedGames = rentalRepository.countRentalsPerGame(game.getId());
+        boolean isTheGameAvailable = rentedGames < game.getStockTotal();
+
+        if (!isTheGameAvailable)
+            throw new UnprocessableEntityException("Game currently unavailable. Out of stock!");
+
+        LocalDate rentDate = LocalDate.now();
+        int originalRentalPrice = rentalDTO.getDaysRented() * game.getPricePerDay();
+
+        RentalModel rental = new RentalModel(rentalDTO, rentDate, originalRentalPrice, game, customer);
+
+        rentalRepository.save(rental);
+
+        return rental;
     }
 
 }
