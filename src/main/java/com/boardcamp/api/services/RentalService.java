@@ -66,7 +66,7 @@ public class RentalService {
         if (isTheRentalFinished)
             throw new UnprocessableEntityException("The rental has already been finalized.");
 
-        LocalDate returnDate = LocalDate.now().plusDays(2);
+        LocalDate returnDate = LocalDate.now();
         int actualDaysRented = Period.between(rental.getRentDate(), returnDate).getDays();
         int daysDelay = actualDaysRented - rental.getDaysRented();
         int delayFee = daysDelay * rental.getGame().getPricePerDay();
