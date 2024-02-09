@@ -26,10 +26,21 @@ public class RentalModel {
     public RentalModel(RentalDTO rentalDTO, LocalDate rentDate, int originalPrice, GameModel game,
             CustomerModel customer) {
         this.daysRented = rentalDTO.getDaysRented();
-        this.rentDate= rentDate;
-        this.originalPrice= originalPrice;
+        this.rentDate = rentDate;
+        this.originalPrice = originalPrice;
         this.game = game;
         this.customer = customer;
+    }
+
+    public RentalModel(RentalModel rental, LocalDate returnDate, int delayFee) {
+        this.id= rental.getId();
+        this.rentDate = rental.getRentDate();
+        this.returnDate = returnDate;
+        this.daysRented = rental.getDaysRented();
+        this.originalPrice = rental.getOriginalPrice();
+        this.delayFee= delayFee;
+        this.game = rental.getGame();
+        this.customer = rental.getCustomer();
     }
 
     @Id
