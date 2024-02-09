@@ -8,7 +8,6 @@ import com.boardcamp.api.models.RentalModel;
 import com.boardcamp.api.services.RentalService;
 
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 import java.util.List;
 

@@ -66,12 +66,14 @@ public class RentalService {
         if (isTheRentalFinished)
             throw new UnprocessableEntityException("The rental has already been finalized.");
 
-        LocalDate returnDate = LocalDate.now().plusDays(10);
+        LocalDate returnDate = LocalDate.now().plusDays(2);
         int actualDaysRented = Period.between(rental.getRentDate(), returnDate).getDays();
         int daysDelay = actualDaysRented - rental.getDaysRented();
-        int delayFee= daysDelay * rental.getGame().getPricePerDay();
+        int delayFee = daysDelay * rental.getGame().getPricePerDay();
 
-        RentalModel newRental = ;
+        RentalModel newRental = new RentalModel(rental, returnDate, delayFee);
+
+        rentalRepository.save(newRental);
 
         return newRental;
     }
