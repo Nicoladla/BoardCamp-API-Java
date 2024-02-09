@@ -1,6 +1,7 @@
 package com.boardcamp.api.services;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -57,4 +58,21 @@ public class RentalService {
         return rental;
     }
 
+    public RentalModel updateFinalizeRental(Long id) {
+        RentalModel rental = rentalRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Rental not found."));
+
+        boolean isTheRentalFinished = rental.getReturnDate() != null;
+        if (isTheRentalFinished)
+            throw new UnprocessableEntityException("The rental has already been finalized.");
+
+        LocalDate returnDate = LocalDate.now().plusDays(10);
+        int actualDaysRented = Period.between(rental.getRentDate(), returnDate).getDays();
+        int daysDelay = actualDaysRented - rental.getDaysRented();
+        int delayFee= daysDelay * rental.getGame().getPricePerDay();
+
+        RentalModel newRental = ;
+
+        return newRental;
+    }
 }
