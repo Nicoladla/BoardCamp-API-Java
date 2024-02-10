@@ -48,4 +48,20 @@ public class GameIntegrationTests {
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
         assertEquals(1, gameRepository.count());
     }
+
+    @Test
+    void givenValidGame_whenCreatingGame_thenCreateGame() {
+        GameDTO gameDTO = new GameDTO("name", "http://link", 1, 3000);
+
+        HttpEntity<GameDTO> body = new HttpEntity<>(gameDTO);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "/games",
+                HttpMethod.POST,
+                body,
+                String.class);
+
+        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertEquals(1, gameRepository.count());
+    }
 }
