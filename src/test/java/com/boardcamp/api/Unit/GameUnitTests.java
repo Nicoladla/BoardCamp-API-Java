@@ -1,4 +1,4 @@
-package com.boardcamp.api;
+package com.boardcamp.api.Unit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
