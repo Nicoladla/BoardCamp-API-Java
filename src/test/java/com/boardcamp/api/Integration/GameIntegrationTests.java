@@ -2,11 +2,14 @@ package com.boardcamp.api.Integration;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.List;
+
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,31 @@ public class GameIntegrationTests {
     @AfterEach
     public void cleanUpDatabase() {
         gameRepository.deleteAll();
+    }
+
+    @Test
+    void givenRequest_whenWantGetListGames_thenReturnList() {
+        GameModel game1 = new GameModel(null, "name", "http://link", 1, 3000);
+        GameModel game2 = new GameModel(null, "name1", "http://link", 1, 3500);
+        GameModel game3 = new GameModel(null, "name2", "http://link", 1, 2000);
+        gameRepository.save(game1);
+        gameRepository.save(game2);
+        gameRepository.save(game3);
+
+        ResponseEntity<List<GameModel>> response = restTemplate.exchange(
+                "/games",
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<List<GameModel>>() {
+                });
+
+        List<GameModel> games = response.getBody();
+
+        assertEquals(3, gameRepository.count());
+        assertEquals(3, games.size());
+        assertEquals("name", games.get(0).getName());
+        assertEquals("name1", games.get(1).getName());
+        assertEquals("name2", games.get(2).getName());
     }
 
     @Test
@@ -55,11 +83,11 @@ public class GameIntegrationTests {
 
         HttpEntity<GameDTO> body = new HttpEntity<>(gameDTO);
 
-        ResponseEntity<String> response = restTemplate.exchange(
+        ResponseEntity<GameModel> response = restTemplate.exchange(
                 "/games",
                 HttpMethod.POST,
                 body,
-                String.class);
+                GameModel.class);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertEquals(1, gameRepository.count());
